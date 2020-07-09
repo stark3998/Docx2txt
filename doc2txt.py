@@ -1,27 +1,5 @@
 import importlib
 
-def convert_folders(folders):
-    print("Converting Folders : ",folders)
-    try:
-        for j in folders:
-            files=glob.glob("{}/*.docx".format(j))
-            print("{} Docx Files found in {} : {}".format(len(files),j,files))
-            try:
-                for i in files:
-                    file_name=i.replace("\\","/").split('/')[-1].split('.')[0]
-                    if "win" in sys.platform:
-                        file_path="\\".join(i.replace("/","\\").split("\\")[:-1])+"\\"
-                    else:
-                        file_path="/".join(i.replace("\\","/").split("/")[:-1])+"/"
-                    doc_text=docx2txt.process(i)
-                    with open(file_path+"\\"+file_name+".txt","w",encoding='utf-8') as f:
-                        f.write(doc_text)
-                    print("Converted {}.docx to {}.txt".format(file_name,file_name))
-            except Exception as e:
-                print("Exception Occured while processing file {} : {}".format(i,ex))
-    except Exception as ex:
-        print("Exception Occured while processing Folder {} : {}".format(j,ex))
-
 def convert_files(files):
     try:
         for i in files:
@@ -36,6 +14,16 @@ def convert_files(files):
             print("Converted {}.docx to {}.txt".format(file_name,file_name))
     except Exception as ex:
         print("Exception Occured while processing file {} : {}".format(i,ex))
+
+def convert_folders(folders):
+    print("Converting Folders : ",folders)
+    try:
+        for j in folders:
+            files=glob.glob("{}/*.docx".format(j))
+            print("{} Docx Files found in {} : {}".format(len(files),j,files))
+            convert_files(files)
+    except Exception as ex:
+        print("Exception Occured while processing Folder {} : {}".format(j,ex))
 
 
 def install(package):
